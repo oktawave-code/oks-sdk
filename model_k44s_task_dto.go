@@ -10,6 +10,7 @@
 package swagger
 
 type K44sTaskDto struct {
+	TaskId string `json:"taskId"`
 	Operation string `json:"operation"`
 	InstanceName string `json:"instanceName"`
 	SubregionId float32 `json:"subregionId"`

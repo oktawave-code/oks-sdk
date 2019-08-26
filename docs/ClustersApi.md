@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**ClustersInstancesNameGet**](ClustersApi.md#ClustersInstancesNameGet) | **Get** /clusters/instances/{name} | 
 [**ClustersInstancesNamePost**](ClustersApi.md#ClustersInstancesNamePost) | **Post** /clusters/instances/{name} | 
 [**ClustersInstancesNameTasksGet**](ClustersApi.md#ClustersInstancesNameTasksGet) | **Get** /clusters/instances/{name}/tasks | 
+[**ClustersInstancesNameTasksTaskIdGet**](ClustersApi.md#ClustersInstancesNameTasksTaskIdGet) | **Get** /clusters/instances/{name}/tasks/{taskId} | 
 [**ClustersKubeconfigNameGet**](ClustersApi.md#ClustersKubeconfigNameGet) | **Get** /clusters/kubeconfig/{name} | 
 [**ClustersNameDelete**](ClustersApi.md#ClustersNameDelete) | **Delete** /clusters/{name} | 
 [**ClustersNameGet**](ClustersApi.md#ClustersNameGet) | **Get** /clusters/{name} | 
@@ -38,7 +39,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ClustersInstancesNameDelete**
-> ClustersInstancesNameDelete(ctx, k44SNodesList, name)
+> []K44sTaskDto ClustersInstancesNameDelete(ctx, k44SNodesList, name)
 
 
 ### Required Parameters
@@ -51,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**[]K44sTaskDto**](K44sTaskDto.md)
 
 ### Authorization
 
@@ -91,7 +92,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ClustersInstancesNamePost**
-> ClustersInstancesNamePost(ctx, k44SNodesSpecification, name)
+> []K44sTaskDto ClustersInstancesNamePost(ctx, k44SNodesSpecification, name)
 
 
 ### Required Parameters
@@ -104,7 +105,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**[]K44sTaskDto**](K44sTaskDto.md)
 
 ### Authorization
 
@@ -131,6 +132,33 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**[]K44sTaskDto**](K44sTaskDto.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ClustersInstancesNameTasksTaskIdGet**
+> K44sTaskDto ClustersInstancesNameTasksTaskIdGet(ctx, taskId, name)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **taskId** | **string**|  | 
+  **name** | **string**|  | 
+
+### Return type
+
+[**K44sTaskDto**](K44sTaskDto.md)
 
 ### Authorization
 

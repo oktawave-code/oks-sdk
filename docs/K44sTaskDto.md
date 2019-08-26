@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**TaskId** | **string** |  | [default to null]
 **Operation** | **string** |  | [default to null]
 **InstanceName** | **string** |  | [default to null]
 **SubregionId** | **float32** |  | [default to null]
