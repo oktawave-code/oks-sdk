@@ -8,7 +8,7 @@
  */
 package swagger
 
-type K44sInstanceStatus struct {
+type IaasDictionaryEntry struct {
 	Id float64 `json:"Id"`
 	Label string `json:"Label"`
 }
