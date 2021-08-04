@@ -1,4 +1,4 @@
-# K44sInstanceType
+# IaasDictionaryEntry
 
 ## Properties
 Name | Type | Description | Notes

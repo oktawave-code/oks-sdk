@@ -1,0 +1,484 @@
+openapi: 3.0.1
+info:
+  title: Oktawave KaaS API
+  description: Oktawave KaaS API
+  version: "1.0"
+servers:
+- url: /
+paths:
+  /clusters:
+    get:
+      tags:
+      - clusters
+      responses:
+        "200":
+          description: Kubernetes clusters list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/K44SClusterDetailsDto'
+                x-content-type: application/json
+        "403":
+          description: Forbidden.
+          content: {}
+      security:
+      - bearer: []
+  /clusters/{name}:
+    get:
+      tags:
+      - clusters
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Get kubernetes cluster details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/K44SClusterDetailsDto'
+        "403":
+          description: Forbidden.
+          content: {}
+        "404":
+          description: Cluster with specified name does not exist.
+          content: {}
+      security:
+      - bearer: []
+    post:
+      tags:
+      - clusters
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/K44sClusterCreateDto'
+        required: true
+      responses:
+        "200":
+          description: Create kubernetes cluster.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/K44SClusterDetailsDto'
+        "403":
+          description: Forbidden.
+          content: {}
+        "409":
+          description: Cluster with specified name already exists.
+          content: {}
+        "500":
+          content: {}
+      security:
+      - bearer: []
+      x-codegen-request-body-name: K44sClusterCreateDto
+    delete:
+      tags:
+      - clusters
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Cluster deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/K44SClusterDetailsDto'
+        "403":
+          description: Forbidden.
+          content: {}
+        "404":
+          description: Cluster with specified name does not exist.
+          content: {}
+        "409":
+          description: "Unable to delete cluster, because nodes are still attached."
+          content: {}
+        "500":
+          content: {}
+      security:
+      - bearer: []
+  /clusters/instances/{name}:
+    get:
+      tags:
+      - clusters
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Instances assigned to cluster.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/K44sInstance'
+                x-content-type: application/json
+        "403":
+          description: Forbidden.
+          content: {}
+        "404":
+          description: Cluster with specified name does not exist.
+          content: {}
+      security:
+      - bearer: []
+    post:
+      tags:
+      - clusters
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/K44SNodesSpecification'
+        required: true
+      responses:
+        "200":
+          description: Delete isntance tasks list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/K44SOperation'
+                x-content-type: application/json
+        "403":
+          description: Forbidden.
+          content: {}
+        "404":
+          description: Cluster with specified name does not exist.
+          content: {}
+      security:
+      - bearer: []
+      x-codegen-request-body-name: K44SNodesSpecification
+    delete:
+      tags:
+      - clusters
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/K44SNodesList'
+        required: true
+      responses:
+        "200":
+          description: Delete isntance tasks list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/K44SOperation'
+                x-content-type: application/json
+        "403":
+          description: Forbidden.
+          content: {}
+        "404":
+          description: Cluster with specified name does not exist.
+          content: {}
+      security:
+      - bearer: []
+      x-codegen-request-body-name: K44SNodesList
+  /clusters/kubeconfig/{name}:
+    get:
+      tags:
+      - clusters
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Cluster base64 encoded kubeconfig.
+          content: {}
+        "403":
+          description: Forbidden.
+          content: {}
+        "404":
+          description: Cluster with specified name does not exist.
+          content: {}
+      security:
+      - bearer: []
+components:
+  schemas:
+    Date:
+      type: object
+    K44SClusterDetailsDto:
+      required:
+      - creationDate
+      - name
+      - running
+      - version
+      type: object
+      properties:
+        name:
+          type: string
+        creationDate:
+          $ref: '#/components/schemas/Date'
+        running:
+          type: boolean
+        version:
+          type: string
+      example:
+        running: true
+        name: name
+        creationDate: {}
+        version: version
+    K44sClusterCreateDto:
+      required:
+      - version
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of K8S cluster.
+          enum:
+          - "1.21"
+          - "1.18"
+          - "1.15"
+    K44sInstanceSubregion:
+      required:
+      - Id
+      type: object
+      properties:
+        Id:
+          type: number
+      example:
+        Id: 6.027456183070403
+    K44sInstanceType:
+      required:
+      - Id
+      - Label
+      type: object
+      properties:
+        Id:
+          type: number
+        Label:
+          type: string
+      example:
+        Label: Label
+        Id: 1.4658129805029452
+    K44sInstanceStatus:
+      required:
+      - Id
+      - Label
+      type: object
+      properties:
+        Id:
+          type: number
+        Label:
+          type: string
+      example:
+        Label: Label
+        Id: 5.962133916683182
+    K44sInstance:
+      required:
+      - CpuNumber
+      - CreationDate
+      - Id
+      - IpAddress
+      - Name
+      - RamMb
+      - Status
+      - Subregion
+      - TotalDisksCapacity
+      - Type
+      type: object
+      properties:
+        Id:
+          type: number
+        Name:
+          type: string
+        CreationDate:
+          type: string
+        Subregion:
+          $ref: '#/components/schemas/K44sInstanceSubregion'
+        Type:
+          $ref: '#/components/schemas/K44sInstanceType'
+        Status:
+          $ref: '#/components/schemas/K44sInstanceStatus'
+        IpAddress:
+          type: string
+        TotalDisksCapacity:
+          type: number
+        CpuNumber:
+          type: number
+        RamMb:
+          type: number
+      example:
+        Subregion:
+          Id: 6.027456183070403
+        Status:
+          Label: Label
+          Id: 5.962133916683182
+        CreationDate: CreationDate
+        Type:
+          Label: Label
+          Id: 1.4658129805029452
+        CpuNumber: 2.3021358869347655
+        RamMb: 7.061401241503109
+        TotalDisksCapacity: 5.637376656633329
+        IpAddress: IpAddress
+        Id: 0.8008281904610115
+        Name: Name
+    Node:
+      required:
+      - subregion
+      - type
+      type: object
+      properties:
+        subregion:
+          type: number
+          description: Subregion where the instance is placed.
+        type:
+          type: number
+          description: Type of the instance. Represents CPU and Memory parameters
+            for instance.
+    K44SNodesSpecification:
+      required:
+      - nodes
+      type: object
+      properties:
+        nodes:
+          type: array
+          description: List of nodes(instances) for kubernetes cluster.
+          items:
+            $ref: '#/components/schemas/Node'
+    IaasDictionaryEntry:
+      required:
+      - Id
+      - Label
+      type: object
+      properties:
+        Id:
+          type: number
+        Label:
+          type: string
+      example:
+        Label: Label
+        Id: 6.027456183070403
+    IaasTicket:
+      required:
+      - CreationDate
+      - EndDate
+      - Id
+      - ObjectId
+      - ObjectName
+      - OperationType
+      - Progress
+      - Status
+      type: object
+      properties:
+        Id:
+          type: number
+        CreationDate:
+          type: string
+          format: date-time
+        EndDate:
+          type: string
+          format: date-time
+        Status:
+          $ref: '#/components/schemas/IaasDictionaryEntry'
+        OperationType:
+          $ref: '#/components/schemas/IaasDictionaryEntry'
+        ObjectId:
+          type: number
+        ObjectName:
+          type: string
+        Progress:
+          type: number
+      example:
+        Status:
+          Label: Label
+          Id: 6.027456183070403
+        CreationDate: 2000-01-23T04:56:07.000+00:00
+        Progress: 5.962133916683182
+        ObjectId: 1.4658129805029452
+        Id: 0.8008281904610115
+        OperationType: null
+        EndDate: 2000-01-23T04:56:07.000+00:00
+        ObjectName: ObjectName
+    K44SOperation:
+      required:
+      - error
+      - ticket
+      type: object
+      properties:
+        ticket:
+          $ref: '#/components/schemas/IaasTicket'
+        error:
+          type: string
+      example:
+        ticket:
+          Status:
+            Label: Label
+            Id: 6.027456183070403
+          CreationDate: 2000-01-23T04:56:07.000+00:00
+          Progress: 5.962133916683182
+          ObjectId: 1.4658129805029452
+          Id: 0.8008281904610115
+          OperationType: null
+          EndDate: 2000-01-23T04:56:07.000+00:00
+          ObjectName: ObjectName
+        error: error
+    K44SNodesList:
+      required:
+      - instancesIds
+      type: object
+      properties:
+        instancesIds:
+          type: array
+          description: List of nodes(instances) to remove from cluster.
+          items:
+            type: number
+  securitySchemes:
+    bearer:
+      type: apiKey
+      name: Bearer
+      in: header
+x-original-swagger-version: "2.0"

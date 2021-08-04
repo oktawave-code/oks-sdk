@@ -8,7 +8,7 @@
  */
 package swagger
 
-type K44sInstanceStatus struct {
-	Id float64 `json:"Id"`
-	Label string `json:"Label"`
+type K44SOperation struct {
+	Ticket *IaasTicket `json:"ticket"`
+	Error_ string `json:"error"`
 }
