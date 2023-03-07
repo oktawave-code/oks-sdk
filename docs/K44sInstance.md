@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **float64** |  | [default to null]
 **Name** | **string** |  | [default to null]
-**CreationDate** | **string** |  | [default to null]
+**CreationDate** | [**time.Time**](time.Time.md) |  | [default to null]
 **Subregion** | [***K44sInstanceSubregion**](K44sInstanceSubregion.md) |  | [default to null]
 **Type_** | [***K44sInstanceType**](K44sInstanceType.md) |  | [default to null]
 **Status** | [***K44sInstanceStatus**](K44sInstanceStatus.md) |  | [default to null]

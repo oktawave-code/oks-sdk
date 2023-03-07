@@ -246,12 +246,11 @@ paths:
       - bearer: []
 components:
   schemas:
-    Date:
-      type: object
     K44SClusterDetailsDto:
       required:
       - creationDate
       - name
+      - opnId
       - running
       - version
       type: object
@@ -259,7 +258,8 @@ components:
         name:
           type: string
         creationDate:
-          $ref: '#/components/schemas/Date'
+          type: string
+          format: date-time
         running:
           type: boolean
         version:
@@ -267,7 +267,7 @@ components:
       example:
         running: true
         name: name
-        creationDate: {}
+        creationDate: 2000-01-23T04:56:07.000+00:00
         version: version
     K44sClusterCreateDto:
       required:
@@ -336,6 +336,7 @@ components:
           type: string
         CreationDate:
           type: string
+          format: date-time
         Subregion:
           $ref: '#/components/schemas/K44sInstanceSubregion'
         Type:
@@ -356,7 +357,7 @@ components:
         Status:
           Label: Label
           Id: 5.962133916683182
-        CreationDate: CreationDate
+        CreationDate: 2000-01-23T04:56:07.000+00:00
         Type:
           Label: Label
           Id: 1.4658129805029452
