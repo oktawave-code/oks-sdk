@@ -32,7 +32,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [Date](docs/Date.md)
  - [IaasDictionaryEntry](docs/IaasDictionaryEntry.md)
  - [IaasTicket](docs/IaasTicket.md)
  - [K44SClusterDetailsDto](docs/K44SClusterDetailsDto.md)
